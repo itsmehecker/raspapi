@@ -1,5 +1,5 @@
 ## Avacado 
-Story of game: Avacado on a journey to illegally fight in the court because a Flower charged him with salt (assault falsely) and for making her gain weight.
+Story of game: Avocado is on a journey to legally fight in court because a Flower charged him with assault falsely and for making her gain weight.
 
 A game made inside an API.
 
@@ -39,6 +39,8 @@ DATABASE_URL=postgresql://username:pass@host
 uvicorn main:app --reload
 ```
 The API will be available at http://127.0.0.1:8000.
+
+
 ## API Endpoints
 Get API Key
 
@@ -65,6 +67,10 @@ Get Level
 {
   "level": 1
 }
+```
+Use choices
+```json
+curl -X GET "http://127.0.0.1:8000/?api_key=your_generated_api_key"
 ```
 Update Level
 Endpoint: /update-level
