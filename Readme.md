@@ -56,3 +56,36 @@ Get API Key
   "api_key": "generated_api_key"
 }
 ```
+Get Level
+- Endpoint: /level
+- Method: GET
+- Query Parameter: api_key
+- Response:
+```json
+{
+  "level": 1
+}
+```
+Update Level
+Endpoint: /update-level
+Method: POST
+Request Body:
+```json
+{
+  "api_key": "your_api_key",
+  "level": 2
+}
+```
+
+## Example curl Commands
+Get API Key:
+```bash
+curl -X POST "http://127.0.0.1:8000/get-api-key" -H "Content-Type: application/json" -d '{"name": "your_name"}'
+```
+Get Level:
+```bash
+curl -X GET "http://127.0.0.1:8000/level?api_key=your_api_key"
+```
+curl -X POST "http://127.0.0.1:8000/update-level" -H "Content-Type: application/json" -d '{"api_key": "your_api_key", "level": 2}'
+
+Replace your_name and your_api_key with the appropriate values.
