@@ -2,11 +2,13 @@
 Story of game: Avocado is on a journey to legally fight in court because a Flower charged him with assault falsely and for making her gain weight.
 
 A game made inside an API.
+its a choice based game and the outcomes are manually made by me so it's a short and random game
+might actually make this a game without the choices part in unity as my first game(wait for that)
 
-It's choice-based and short. It utilizes GET and POST protocols and also uses PostgreSQL to store your API keys. It uses `secrets` to give you a secure generation of your API key and tracks your progress using the API key.
+It's choice-based and short. It utilizes GET and POST protocols and also uses PostgreSQL to store your API keys and progress. It uses `secrets` to give you a secure generation of your API key and tracks your progress using the API key.
 
 ## How to Use
-
+use your terminal or your browser (you need to use the terminal atleast once to get the api key)
 ### Prerequisites
 
 - Python 3.13
@@ -41,7 +43,7 @@ uvicorn main:app --reload
 The API will be available at http://127.0.0.1:8000.
 
 
-## API Endpoints
+## API Endpoints (ONLY A FEW ARE NOTED HERE)
 Get API Key
 
 - Endpoint: /get-api-key
