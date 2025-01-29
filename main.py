@@ -85,7 +85,7 @@ async def root(api_key: APIKey = Depends(verify_api_key), choice: int = Query(No
             api_key.level = 3
             db = next(get_db())
             db.commit()
-            return {"message": "You chose to flee the country. You are now a fugitive!", "level": api_key.level}
+            return {"message": "You chose to flee the country. You are now a fugitive!. also broke","nav":"go to /mexico?apikey=YOURAPIKEY","level": api_key.level}
         else:
             return {"message": "Invalid choice. Please choose 1 or 2."}
     
@@ -98,6 +98,33 @@ async def root(api_key: APIKey = Depends(verify_api_key), choice: int = Query(No
     else:
         return {"message": "Unknown level. Please contact support.", "level": api_key.level}
 
+@app.get("/mexico")
+async def root(api_key: APIKey = Depends(verify_api_key), choice: int = Query(None)):
+    if api_key.level==3:
+        if choice==None:
+            return {"choices": {1: "sell fertilizers to kids",2:"become a shopkeepers show item"}}
+        elif choice==1:
+            return {"message": "The kids were FBV(FEDERAL BUREAU OF VEGETABLES!!), You gone straight to jail go to /jail?apikey=You're api key"}
+@app.get("/jail")
+@app.get("/dontmindtherottenveggies")#you die a cold and by old age bcoz you were a smushy veggie
+@app.get("/meet_with_rotten_veggies")#they tell you to do something
+@app.get("/do_what_they_say")
+#they say you've got guts
+@app.get("/dont_do_what_they_say")
+#they say you've got guts
+@app.get("/the_mafia_gets_her_killed")
+#The End you completed the game (fake ending)
+@app.get("/enjoy_hybridisation_with_the_flowers_sister")
+#the mafia was her she killed you and cut you and also threw your seed in the fire
+@app.get("/jury_flower")
+#you still go to jail no matter what coz the victim is a flower ik it's sexist I'm sorry (wait till you get to the johny depp level 🚶‍♂️)
+@app.get("/bailout_j")
+#Jonhny depp bails you out and helps you fight the flower with 
+@app.get("/do_a_jar_of_powdered_sugar")
+#
+@app.get("/dont_do_the_jar_of_powdered_sugar")
+#you're lame get tf out of here
+@app.get()
 @app.get("/level")
 async def get_level(api_key: APIKey = Depends(verify_api_key)):
     return {"level": api_key.level}
