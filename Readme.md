@@ -18,10 +18,10 @@ use your terminal or your browser (you need to use the terminal atleast once to 
 ### Installation
 
 1. Clone the repository:
-   ```sh
+```bash
    git clone https://github.com/yourusername/raspapi.git
    cd raspapi
-   ```
+```
 Create a virtual environment and activate it:
 ```bash
 python -m venv .venv
@@ -29,6 +29,8 @@ source .venv/bin/activate
 ```
 3.Install the required packages
 ```bash
+pip install wheel
+pip install --upgrade setuptools pip
 pip install -r requirements.txt
 ```
 4.Create .env file so your db is secure

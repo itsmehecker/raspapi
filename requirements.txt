@@ -1,4 +1,5 @@
 fastapi
 pydantic
 sqlalchemy
-dotenv
+python-dotenv
+uuid
