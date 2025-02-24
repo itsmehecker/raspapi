@@ -64,11 +64,12 @@ def verify_api_key(api_key: str, db: Session = Depends(get_db)) -> APIKey:
     return db_api_key
 
 @app.post("/smuggle_fertilizer")
-async def root(request: riddle_ans,api_key: APIKey = Depends(verify_api_key),db: Session = Depends(get_db)):
-    ans=request.ans
-    if ans.lower()=="avacado":
-        update_level(api_key, 6, db)
-        return {"message": "You smuggled the fertilizer successfully. go to /the_mafia_gets_her_killed .", "level": api_key.level}
+async def root(request: riddle_ans):
+    ansl=request.answer
+    if ansl.lower()=="avacado":
+        return {"message": "You smuggled the fertilizer successfully. go to /the_mafia_gets_her_killed ."}
+    else:
+        return {"message":"wrong answer,try again"}
 def update_level(api_key: APIKey, new_level: int, db: Session):
     api_key.level = new_level
     db.commit()
@@ -100,7 +101,7 @@ async def root(api_key: APIKey = Depends(verify_api_key), choice: int = Query(No
 
 @app.get("/mexico")
 async def mexico(api_key: APIKey = Depends(verify_api_key), choice: int = Query(None), db: Session = Depends(get_db)):
-    if api_key.level == 3:
+    if api_key.level == 3 or api_key.level == 5:
         if choice is None:
             return {
                 "choices": {
@@ -116,10 +117,10 @@ async def mexico(api_key: APIKey = Depends(verify_api_key), choice: int = Query(
                 "level": api_key.level
             }
         elif choice == 2:
-            update_level(api_key, 5, db)
             return {
                 "message": "You became a shopkeeper's show item. You are now on display.",
-                "level": api_key.level
+                "level": api_key.level,
+                "hint":"just go to /sell_fertilizers_to_kids and be a chill dealer"
             }
         else:
             return {"message": "Invalid choice. Please choose 1 or 2."}
@@ -145,14 +146,19 @@ async def root(api_key: APIKey = Depends(verify_api_key), choice: int = Query(No
 
 @app.get("/do_what_they_say")
 async def root(api_key: APIKey = Depends(verify_api_key)):
-    return {"message":"they tell you to smuggle some syntethic fertilizer in","TO DO:": "do a POST req to /smuggle_fertilizer with an argument (intruction in docs) of this famous riddle","riddle":"Guac is my fame, but what is my name?"}
+    return {"message":"they tell you to smuggle some syntethic fertilizer in",
+            "TO DO:": "do a POST req to /smuggle_fertilizer with an argument of this famous riddle",
+            "riddle":"Guac is my fame, but what is my name?",
+            "instuction": " go to terminal and type curl -X POST http://127.0.0.1:8000/smuggle_fertilizer -H \"Content-Type: application/json\" -d '{\"answer\": \"avacado\"}'"}
 
 @app.get("/dont_do_what_they_say")
 async def root(api_key: APIKey = Depends(verify_api_key)):
-    return {"hint":"insert nike's slogan here"}
+    return {"hint":"insert nike's slogan here","message":"go to /do_what_they_say"}
+
+
 @app.get("/the_mafia_gets_her_killed")#The End you completed the game (fake ending)
 async def root(api_key: APIKey = Depends(verify_api_key)):
-    if api_key.level==3:
+    if api_key.level==5:
         return {"message":"you see the flowers sister and immediately flirt with her and she flirts back and asks you to come to her place","level": api_key.level,"mission":"go to /enjoy_hybridisation_with_the_flowers_sister"}
 
 
@@ -175,7 +181,13 @@ async def root(api_key: APIKey = Depends(verify_api_key)):
 async def root(api_key: APIKey = Depends(verify_api_key)):
     if api_key.level==2:
         api_key.level=1
-        return {"message": "you're cool you get to fight the flower","status":"Game Over ;)(ik its a lame game)","level": api_key.level,"reset":"game has been reset try going to /"}
+        return {
+            "message": "you're cool you get to fight the flower the false accusation has been deat with",
+            "vision": "JOHNNY DEPP tells you be proud of who you are you know what you would do and not do but sometimes you gotta prove it to some rich and nasty people. Believe in yourself",
+            "status": "Game Over (ik its a lame game)",
+            "level": api_key.level,
+            "reset": "game has been reset try going to /"
+        }
 
 @app.get("/dont_do_the_jar_of_powdered_sugar")#you're lame get tf out of here
 async def root(api_key: APIKey = Depends(verify_api_key)):
@@ -185,3 +197,8 @@ async def root(api_key: APIKey = Depends(verify_api_key)):
 @app.get("/level")
 async def get_level(api_key: APIKey = Depends(verify_api_key)):
     return {"level": api_key.level}
+
+@app.get("/reset")
+async def reset(api_key: APIKey = Depends(verify_api_key), db: Session = Depends(get_db)):
+    update_level(api_key, 1, db)
+    return {"message":"game has been reset","level": api_key.level}
