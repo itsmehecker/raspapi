@@ -3,3 +3,5 @@ pydantic
 sqlalchemy
 python-dotenv
 uuid
+psycopg2
+uvicorn
