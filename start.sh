@@ -1,4 +1,4 @@
-git clone https://github.com/yourusername/raspapi.git
+git clone https://github.com/itsmehecker/raspapi.git
 cd raspapi
 python -m venv .venv
 source .venv/bin/activate

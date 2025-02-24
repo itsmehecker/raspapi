@@ -19,7 +19,7 @@ use your terminal or your browser (you need to use the terminal atleast once to 
 
 1. Clone the repository:
 ```bash
-   git clone https://github.com/yourusername/raspapi.git
+   git clone https://github.com/itsmehecker/raspapi.git
    cd raspapi
 ```
 Create a virtual environment and activate it:
