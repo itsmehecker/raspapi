@@ -63,11 +63,12 @@ def verify_api_key(api_key: str, db: Session = Depends(get_db)) -> APIKey:
         raise HTTPException(status_code=403, detail="Invalid API Key")
     return db_api_key
 
-@app.post("/riddle")
+@app.post("/smuggle_fertilizer")
 async def root(request: riddle_ans,api_key: APIKey = Depends(verify_api_key),db: Session = Depends(get_db)):
     ans=request.ans
-    if ans.lower()=="":
-        update_level(api_key, 4, db)
+    if ans.lower()=="avacado":
+        update_level(api_key, 6, db)
+        return {"message": "You smuggled the fertilizer successfully. go to /the_mafia_gets_her_killed .", "level": api_key.level}
 def update_level(api_key: APIKey, new_level: int, db: Session):
     api_key.level = new_level
     db.commit()
@@ -87,21 +88,19 @@ async def root(api_key: APIKey = Depends(verify_api_key), choice: int = Query(No
             }
         elif choice == 1:
             update_level(api_key, 2, db)
-            return {"message": "You chose to fight the accusation in court. Prepare your defense!", "level": api_key.level}
+            return {"message": "You chose to fight the accusation in court. Prepare your defense!,go to /jury_flower.", "level": api_key.level}
         elif choice == 2:
             update_level(api_key, 3, db)
-            return {"message": "You chose to flee the country. You are now a fugitive!", "level": api_key.level}
+            return {"message": "You chose to flee the country. You are now a fugitive! go to /mexico", "level": api_key.level}
         else:
             return {"message": "Invalid choice. Please choose 1 or 2."}
     
-    elif api_key.level == 2:
-        return {"message": "You are in jail. You have been accused of being a hybrid vegetable. go to /jury_flower.", "level": api_key.level}
     else:
         return {"message": "Unknown level. Please contact support.", "level": api_key.level}
 
 @app.get("/mexico")
 async def mexico(api_key: APIKey = Depends(verify_api_key), choice: int = Query(None), db: Session = Depends(get_db)):
-    if api_key.level == 3 or api_key.level == 4 or api_key.level == 5:
+    if api_key.level == 3:
         if choice is None:
             return {
                 "choices": {
@@ -129,12 +128,12 @@ async def mexico(api_key: APIKey = Depends(verify_api_key), choice: int = Query(
 
 @app.get("/jail")
 async def root(api_key: APIKey = Depends(verify_api_key)):
-    if api_key.level==3:
+    if api_key.level==4:
         return {"message": "You see some rotten veggies in the jail cell. They seem to be looking at you and saying something.", "level": api_key.level,"mission":"go to /rotten_veggies?apikey=YOURAPIKEY"} 
     
 @app.get("/rotten_veggies")#they tell you to do something
 async def root(api_key: APIKey = Depends(verify_api_key), choice: int = Query(None)):
-    if api_key.level==3:
+    if api_key.level==4:
         if choice==None:
             return {"message":"they tell you to do something for them","choices": {1: "do what they say",2:"dont do what they say"}}
         elif choice==1:
@@ -146,7 +145,7 @@ async def root(api_key: APIKey = Depends(verify_api_key), choice: int = Query(No
 
 @app.get("/do_what_they_say")
 async def root(api_key: APIKey = Depends(verify_api_key)):
-    return {"message":"they tell you to smuggle some syntethic fertilizer in","TO DO:": "do a POST req to /smuggle_fertilizer with an argument (intruction in docs) of this famous riddle","riddle":""}
+    return {"message":"they tell you to smuggle some syntethic fertilizer in","TO DO:": "do a POST req to /smuggle_fertilizer with an argument (intruction in docs) of this famous riddle","riddle":"Guac is my fame, but what is my name?"}
 
 @app.get("/dont_do_what_they_say")
 async def root(api_key: APIKey = Depends(verify_api_key)):
@@ -159,13 +158,13 @@ async def root(api_key: APIKey = Depends(verify_api_key)):
 
 @app.get("/jury_flower")
 async def root(api_key: APIKey = Depends(verify_api_key)):
-    if api_key.level==2:
+    if api_key.level==2: 
         return {"message": "you  go to jail no matter due to the speciest laws","waitaminute":"The guard comes in and tell you someone bailed you out","level": api_key.level,"mission":"go to /bailout_j to meet the person who bailed you out"}
 
 @app.get("/enjoy_hybridisation_with_the_flowers_sister")#the mafia was her she killed you and cut you and also threw your seed in the fire
 async def root(api_key: APIKey = Depends(verify_api_key)):
-    if api_key.level==3:
-        return {"message": "The mafia was her (the flower) she killed you and cut you and also threw your seed in the fire","level": api_key.level,"mission":"go to /the_mafia_gets_her_killed"}
+    if api_key.level==6:
+        return {"message": "The mafia was her (the flower) she killed you and cut you and also threw your seed in the fire","level": api_key.level}
 
 @app.get("/bailout_j")#Jonhny Pepp(pepper) bails you out and helps you fight the flower with the help of his lawyer
 async def root(api_key: APIKey = Depends(verify_api_key)):
